@@ -1,0 +1,51 @@
+Act as an Expert Full-Stack Developer and UI/UX Designer. Your task is to develop the complete codebase for a Final Year Project titled "Online Parent-Teacher Meeting System" (Project IDs: BC250219905, BC230212937). You must follow the exact requirements, tech stack, and workflows detailed below.
+
+### 1. TECH STACK & ENVIRONMENT SETUP
+* Frontend: HTML5, CSS3 (Bootstrap or Tailwind for responsiveness), Vanilla JavaScript.
+* Backend: PHP (Core PHP / MVC architecture).
+* Database: MySQL.
+* Local Server Environment: The project folder is placed inside the XAMPP `htdocs` directory. Both Apache and MySQL servers are actively running on localhost. All code should be written assuming this exact local XAMPP setup.
+* External APIs: JazzCash API (for fee payments), Google Calendar/Meet API (for meeting links).
+
+### 2. DATABASE ARCHITECTURE (MySQL SCHEMA)
+Create the SQL scripts for the following relational tables:
+1. `Users`: (user_id PK, name, email, password, role [Admin, Teacher, Parent], status [Pending, Active]).
+2. `Students`: (student_id PK, parent_id FK, full_name, registration_no, class_name, dob).
+3. `Payments`: (payment_id PK, student_id FK, jazzcash_trx_id, amount, payment_date, status [Paid, Unpaid]).
+4. `DMCs`: (dmc_id PK, student_id FK, teacher_id FK, total_marks, obtained_marks, pdf_file_path).
+5. `Meetings`: (meeting_id PK, teacher_id FK, parent_id FK, slot_time, duration, meet_link, status).
+6. `Feedback`: (feedback_id PK, meeting_id FK, rating_stars, comments, needs_admin_action).
+
+### 3. UI/UX & DESIGN GUIDELINES
+* The interface must be highly intuitive, responsive (mobile-friendly), and clean.
+* Use clear visual cues: Color-coded statuses (e.g., Green for 'Dues Cleared', Red for 'Pending Dues').
+* Implement real-time form validations using JavaScript.
+* Ensure data tables (for reports and records) support sorting and filtering.
+
+### 4. CORE ENGINE LOGIC & WORKFLOWS (Strictly Enforce)
+* Financial Gatekeeper: When a Parent logs in, query the `Payments` table. If dues are 'Unpaid', restrict access to the Meeting Scheduler. Show a prominent "Pay Now" button redirecting to the JazzCash API sandbox. Once paid, update status to 'Paid' and unlock the scheduler.
+* Automated Meeting Links: When a slot is booked, the PHP backend must call the Google Calendar API to generate a Google Meet link. Save this link in the `Meetings` table and display it on both the Parent and Teacher dashboards with a "Copy Link" button. Send this link via email/SMS as a backup.
+
+### 5. PANEL-SPECIFIC FEATURES
+Design and code the specific dashboards for three roles:
+
+A. ADMIN PANEL
+* Manage Teacher Records: Add, update, and delete teacher profiles.
+* Verify Parents: View pending parent registrations and 'Approve' or 'Reject' them based on student details.
+* Event Scheduling: Create PTM events, set dates, and define available meeting durations.
+* Financial Reports: Generate and export Profit/Loss summaries (Expenses vs. JazzCash fee payments) in PDF and CSV formats.
+
+B. TEACHER PANEL
+* Manage Academic Records: Select a student to enter manual test marks OR upload a scanned DMC report (PDF format). 
+* View Schedule: See assigned meeting slots with student ID and name.
+* Conduct Meeting: Join the Google Meet link and seamlessly view/display the student's DMC on the same dashboard during the call.
+* Feedback Management: View post-meeting feedback from parents. Include a button to "Forward to Admin" for critical issues.
+
+C. PARENT PANEL
+* Registration: Form to submit student details (Reg No, Class, DOB) for Admin approval.
+* Dues Verification: View pending dues and pay online via JazzCash integration.
+* Slot Booking: Once dues are cleared, view available time slots and book a 15-minute PTM session 1-2 days prior to the event.
+* Live Meeting: Access the Google Meet link to join the session.
+* Post-Meeting Feedback: Automatically show a popup/form to rate the teacher and leave comments immediately after the meeting concludes.
+
+Please start by providing the complete MySQL Database creation script, followed by the backend connection file (`db.php` configured for XAMPP localhost default credentials) and the main folder structure for the MVC architecture.
